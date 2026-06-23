@@ -1,18 +1,10 @@
-{% extends "admin/base_site.html" %}
-
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'index' %}">Sistema de Ordenamiento Territorial</a></h1>
-{% endblock %}
-
-{% block nav-global %}
-    <a href="{% url 'listar_parroquias' %}">Listar Parroquias</a> |
-    <a href="{% url 'listar_barrios' %}">Listar Barrios</a> |
-    <a href="{% url 'crear_parroquia' %}">Crear Parroquia</a> |
-    <a href="{% url 'crear_barrio' %}">Crear Barrio</a>
-{% endblock %}
-
-{% block content %}
-<div id="content-main">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles del Barrio</title>
+</head>
+<body>
     <h2>Detalles del Barrio: {{ barrio.nombre }}</h2>
     <ul>
         <li><strong>Nombre:</strong> {{ barrio.nombre }}</li>
@@ -35,6 +27,6 @@
     {% endif %}
     
     <br>
-    <a href="{% url 'index' %}">Volver al inicio</a>
-</div>
-{% endblock %}
+    [<a href="{% url 'index' %}">inicio</a>]
+</body>
+</html>

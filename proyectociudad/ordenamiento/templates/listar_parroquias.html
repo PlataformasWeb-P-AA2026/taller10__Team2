@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Parroquias</title>
+</head>
+<body>
+    <h2>Listado de Parroquias</h2>
+
+    <ul>
+      {% for p in parroquias %}
+      <li>
+        {{ p.nombre }} - 
+        [<a href="{% url 'obtener_parroquia' p.id %}">ver</a>] -
+        [<a href="{% url 'editar_parroquia' p.id %}">editar</a>]
+      </li>
+      {% endfor %}
+    </ul>
+
+    <br>
+    [<a href="{% url 'index' %}">inicio</a>]
+</body>
+</html>
