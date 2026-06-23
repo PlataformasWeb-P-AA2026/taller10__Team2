@@ -1,52 +1,140 @@
-from django.shortcuts import render, get_object_or_4000, redirect
-from .models import Parroquia, Barrio
-from .forms import ParroquiaForm, BarrioForm
-from django.db.models import Sum
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
-# Listar Parroquias y sus detalles complejos
-def listar_parroquias(request):
-    parroquias = Parroquia.objects.all()
-    
-    # Añadimos datos calculados dinámicamente en Python para cada parroquia
-    for p in parroquias:
-        p.total_parques = p.barrios.aggregate(Sum('parques'))['parques__sum'] or 0
-        p.profesiones_presidentes = [b.presidente.profesion for b in p.barrios.all() if hasattr(b, 'presidente')]
-        
-    return render(request, 'ordenamiento/listar_parroquias.html', {'parroquias': parroquias})
+# importar las clases de models.py
+from ordenamiento.models import *
 
-# Listar Barrios
-def listar_barrios(request):
+# importar los formularios de forms.py
+from ordenamiento.forms import *
+
+# Create your views here.
+
+def index(request):
+    """
+        Listar los registros desde la base de datos
+    """
+    parroquias_db = Parroquia.objects.all()
     barrios = Barrio.objects.all()
-    return render(request, 'ordenamiento/listar_barrios.html', {'barrios': barrios})
+    
+    # Calcular parques y profesiones de presidentes para cada parroquia
+    lista_parroquias = []
+    for p in parroquias_db:
+        # numero de parques: sumar los parques de sus barrios
+        parques = sum([b.numero_parques for b in p.barrios.all()])
+        
+        # profesiones de los presidentes
+        profesiones = []
+        for b in p.barrios.all():
+            if hasattr(b, 'presidente'):
+                profesiones.append(b.presidente.profesion)
+        profesiones = list(set(profesiones)) # sin duplicados
+        
+        lista_parroquias.append({
+            'obj': p,
+            'total_parques': parques,
+            'profesiones': profesiones
+        })
+    
+    informacion_template = {
+        'parroquias': lista_parroquias, 
+        'numero_parroquias': len(parroquias_db),
+        'barrios': barrios,
+        'numero_barrios': len(barrios)
+    }
+    return render(request, 'index.html', informacion_template)
 
-# CRUD Parroquia
+def obtener_parroquia(request, id):
+    """
+    """
+    parroquia = Parroquia.objects.get(pk=id)
+    informacion_template = {'parroquia': parroquia}
+    return render(request, 'obtener_parroquia.html', informacion_template)
+
+def obtener_barrio(request, id):
+    """
+    """
+    barrio = Barrio.objects.get(pk=id)
+    informacion_template = {'barrio': barrio}
+    return render(request, 'obtener_barrio.html', informacion_template)
+
+
+def listar_parroquias(request):
+    """
+    """
+    parroquias = Parroquia.objects.all()
+    informacion_template = {
+        'parroquias': parroquias
+    }
+    return render(request, 'listar_parroquias.html', informacion_template)
+
+
+def listar_barrios(request):
+    """
+    """
+    barrios = Barrio.objects.all()
+    informacion_template = {
+        'barrios': barrios
+    }
+    return render(request, 'listar_barrios.html', informacion_template)
+
+
 def crear_parroquia(request):
-    form = ParroquiaForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('listar_parroquias')
-    return render(request, 'ordenamiento/form_parroquia.html', {'form': form, 'accion': 'Crear'})
+    """
+    """
+    if request.method=='POST':
+        formulario = ParroquiaForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index)
+    else:
+        formulario = ParroquiaForm()
+    
+    diccionario = {'formulario': formulario}
+    return render(request, 'crear_parroquia.html', diccionario)
 
-def editar_parroquia(request, pk):
-    parroquia = get_object_or_404(Parroquia, pk=pk)
-    form = ParroquiaForm(request.POST or None, instance=parroquia)
-    if form.is_valid():
-        form.save()
-        return redirect('listar_parroquias')
-    return render(request, 'ordenamiento/form_parroquia.html', {'form': form, 'accion': 'Editar'})
 
-# CRUD Barrio
+def editar_parroquia(request, id):
+    """
+    """
+    parroquia = Parroquia.objects.get(pk=id)
+    if request.method=='POST':
+        formulario = ParroquiaForm(request.POST, instance=parroquia)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index)
+    else:
+        formulario = ParroquiaForm(instance=parroquia)
+    
+    diccionario = {'formulario': formulario}
+    return render(request, 'editar_parroquia.html', diccionario)
+
+
 def crear_barrio(request):
-    form = BarrioForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('listar_barrios')
-    return render(request, 'ordenamiento/form_barrio.html', {'form': form, 'accion': 'Crear'})
+    """
+    """
+    if request.method=='POST':
+        formulario = BarrioForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index)
+    else:
+        formulario = BarrioForm()
+    
+    diccionario = {'formulario': formulario}
+    return render(request, 'crear_barrio.html', diccionario)
 
-def editar_barrio(request, pk):
-    barrio = get_object_or_404(Barrio, pk=pk)
-    form = BarrioForm(request.POST or None, instance=barrio)
-    if form.is_valid():
-        form.save()
-        return redirect('listar_barrios')
-    return render(request, 'ordenamiento/form_barrio.html', {'form': form, 'accion': 'Editar'})
+
+def editar_barrio(request, id):
+    """
+    """
+    barrio = Barrio.objects.get(pk=id)
+    if request.method=='POST':
+        formulario = BarrioForm(request.POST, instance=barrio)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index)
+    else:
+        formulario = BarrioForm(instance=barrio)
+    
+    diccionario = {'formulario': formulario}
+    return render(request, 'editar_barrio.html', diccionario)

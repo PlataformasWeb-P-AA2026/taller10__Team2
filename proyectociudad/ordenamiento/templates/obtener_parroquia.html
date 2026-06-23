@@ -1,0 +1,35 @@
+{% extends "admin/base_site.html" %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'index' %}">Sistema de Ordenamiento Territorial</a></h1>
+{% endblock %}
+
+{% block nav-global %}
+    <a href="{% url 'listar_parroquias' %}">Listar Parroquias</a> |
+    <a href="{% url 'listar_barrios' %}">Listar Barrios</a> |
+    <a href="{% url 'crear_parroquia' %}">Crear Parroquia</a> |
+    <a href="{% url 'crear_barrio' %}">Crear Barrio</a>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h2>Detalles de la Parroquia: {{ parroquia.nombre }}</h2>
+    <ul>
+        <li><strong>Nombre:</strong> {{ parroquia.nombre }}</li>
+        <li><strong>Ubicación:</strong> {{ parroquia.ubicacion }}</li>
+        <li><strong>Tipo:</strong> {{ parroquia.tipo }}</li>
+    </ul>
+    
+    <h3>Barrios en esta parroquia:</h3>
+    <ul>
+        {% for barrio in parroquia.barrios.all %}
+            <li>{{ barrio.nombre }} (Parques: {{ barrio.numero_parques }}, Viviendas: {{ barrio.numero_viviendas }})</li>
+        {% empty %}
+            <li>No tiene barrios asignados.</li>
+        {% endfor %}
+    </ul>
+    
+    <br>
+    <a href="{% url 'index' %}">Volver al inicio</a>
+</div>
+{% endblock %}

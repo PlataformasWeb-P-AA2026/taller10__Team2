@@ -1,7 +1,46 @@
-{% extends "admin/base_site.html" %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Ordenamiento Territorial</title>
+</head>
+<body>
 
-{% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">Sistema de Ordenamiento Territorial</a></h1>
-{% endblock %}
+    <!-- Enlaces requeridos en todos los templates -->
+    [<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+    [<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+    [<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">crear barrio</a>]
+    <br><br>
 
-{% block nav-global %}{% endblock %}
+    <h3>Número de parroquias: {{ numero_parroquias }}</h3>
+
+    <ul>
+      {% for p in parroquias %}
+      <li>
+        {{ p.obj.nombre }} (Parques: {{ p.total_parques }}, Profesiones de presidentes: {{ p.profesiones|join:", " }}) - 
+        [<a href="{% url 'obtener_parroquia' p.obj.id %}">ver</a>] -
+        [<a href="{% url 'editar_parroquia' p.obj.id %}">editar</a>]
+      </li>
+      {% endfor %}
+    </ul>
+    <br />
+
+    <h3>Número de barrios actuales: {{ numero_barrios }}</h3>
+
+    <ul>
+      {% for b in barrios %}
+      <li>
+        {{ b.nombre }} - 
+        [<a href="{% url 'obtener_barrio' b.id %}">ver</a>] -
+        [<a href="{% url 'editar_barrio' b.id %}">editar</a>]
+      </li>
+      {% endfor %}
+    </ul>
+
+    <br />
+    [<a href="{% url 'crear_parroquia' %}">agregar parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">agregar barrio</a>]
+
+</body>
+</html>
