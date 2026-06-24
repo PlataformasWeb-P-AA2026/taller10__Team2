@@ -1,4 +1,4 @@
-# taller10
+# taller10 -AGUILAR SOLANO LUIS ALEJANDRO, ROMERO YAGUANA ANTHONY JOEL
 
 Uso de admin y formularios básicos
 
@@ -51,6 +51,7 @@ Tareas:
 - Generar un formulario que cree un barrio
 - Generar un formulario que edite un barrio
 - En todos los templates debe existir enlaces visibles a: listar parroquias, barrios, crear parroquias, crear barrios
+- 
 
 ====
 
