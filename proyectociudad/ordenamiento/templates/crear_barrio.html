@@ -1,11 +1,25 @@
-<h2>Crear Barrio</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Barrio</title>
+</head>
+<body>
 
-<form action="" method="post">
-  {% csrf_token %}
+    [<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+    [<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+    [<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">crear barrio</a>]
+    <br><br>
 
-  {{ formulario.as_p }}
+    <h2>Crear Barrio</h2>
 
-  <p><input type='submit' value='Agregar'/></p>
-</form>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ formulario.as_p }}
+      <p><input type="submit" value="Agregar"/></p>
+    </form>
 
-[<a href="{% url 'index' %}">inicio</a>]
+    [<a href="{% url 'index' %}">inicio</a>]
+</body>
+</html>

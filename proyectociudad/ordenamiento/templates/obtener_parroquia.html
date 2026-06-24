@@ -5,13 +5,20 @@
     <title>Detalles de la Parroquia</title>
 </head>
 <body>
+
+    [<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+    [<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+    [<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">crear barrio</a>]
+    <br><br>
+
     <h2>Detalles de la Parroquia: {{ parroquia.nombre }}</h2>
     <ul>
         <li><strong>Nombre:</strong> {{ parroquia.nombre }}</li>
         <li><strong>Ubicación:</strong> {{ parroquia.ubicacion }}</li>
         <li><strong>Tipo:</strong> {{ parroquia.tipo }}</li>
     </ul>
-    
+
     <h3>Barrios en esta parroquia:</h3>
     <ul>
         {% for barrio in parroquia.barrios.all %}
@@ -20,7 +27,7 @@
             <li>No tiene barrios asignados.</li>
         {% endfor %}
     </ul>
-    
+
     <br>
     [<a href="{% url 'index' %}">inicio</a>]
 </body>

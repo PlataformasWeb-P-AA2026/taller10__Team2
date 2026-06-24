@@ -5,15 +5,24 @@
     <title>Listar Barrios</title>
 </head>
 <body>
+
+    [<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+    [<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+    [<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">crear barrio</a>]
+    <br><br>
+
     <h2>Listado de Barrios</h2>
 
     <ul>
       {% for b in barrios %}
       <li>
-        {{ b.nombre }} - 
+        {{ b.nombre }} -
         [<a href="{% url 'obtener_barrio' b.id %}">ver</a>] -
         [<a href="{% url 'editar_barrio' b.id %}">editar</a>]
       </li>
+      {% empty %}
+      <li>No hay barrios registrados.</li>
       {% endfor %}
     </ul>
 

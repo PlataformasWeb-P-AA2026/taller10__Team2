@@ -5,17 +5,44 @@
     <title>Listar Parroquias</title>
 </head>
 <body>
+
+    [<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+    [<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+    [<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">crear barrio</a>]
+    <br><br>
+
     <h2>Listado de Parroquias</h2>
 
-    <ul>
-      {% for p in parroquias %}
-      <li>
-        {{ p.nombre }} - 
-        [<a href="{% url 'obtener_parroquia' p.id %}">ver</a>] -
-        [<a href="{% url 'editar_parroquia' p.id %}">editar</a>]
-      </li>
-      {% endfor %}
-    </ul>
+    {% for p in parroquias %}
+    <div>
+        <h3>
+            {{ p.obj.nombre }} ({{ p.obj.tipo }}) — {{ p.obj.ubicacion }}
+            [<a href="{% url 'obtener_parroquia' p.obj.id %}">ver</a>]
+            [<a href="{% url 'editar_parroquia' p.obj.id %}">editar</a>]
+        </h3>
+        <p>
+            <strong>Total parques:</strong> {{ p.total_parques }} &nbsp;|&nbsp;
+            <strong>Profesiones de presidentes:</strong>
+            {% if p.profesiones %}{{ p.profesiones|join:", " }}{% else %}ninguna{% endif %}
+        </p>
+        <strong>Barrios:</strong>
+        <ul>
+            {% for b in p.barrios %}
+            <li>
+                {{ b.nombre }} — Viviendas: {{ b.numero_viviendas }}, Parques: {{ b.numero_parques }}, Edificios: {{ b.numero_edificios_residenciales }}
+                [<a href="{% url 'obtener_barrio' b.id %}">ver</a>]
+                [<a href="{% url 'editar_barrio' b.id %}">editar</a>]
+            </li>
+            {% empty %}
+            <li>No tiene barrios asignados.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <hr>
+    {% empty %}
+    <p>No hay parroquias registradas.</p>
+    {% endfor %}
 
     <br>
     [<a href="{% url 'index' %}">inicio</a>]

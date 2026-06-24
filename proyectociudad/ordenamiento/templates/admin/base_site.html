@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Sistema de Ordenamiento Territorial{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}">
+        Sistema de Ordenamiento Territorial
+    </a>
+</div>
+<p style="color:#ccc; font-size:12px; margin:0 0 5px 0;">
+    Administración - Parroquias, Barrios y Presidentes
+</p>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    #header {
+        background: #1a5276;
+        color: #fff;
+    }
+    #header a:link, #header a:visited {
+        color: #aed6f1;
+    }
+    div.breadcrumbs {
+        background: #2e86c1;
+        color: #fff;
+    }
+    div.breadcrumbs a {
+        color: #d6eaf8;
+    }
+    #content-main a {
+        color: #1a5276;
+    }
+    .module h2, .module caption, .inline-group h2 {
+        background: #2e86c1;
+    }
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: #1a5276;
+        border-color: #154360;
+    }
+    .button:hover, input[type=submit]:hover {
+        background: #154360;
+    }
+</style>
+{% endblock %}

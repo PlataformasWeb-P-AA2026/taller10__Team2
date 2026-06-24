@@ -5,6 +5,13 @@
     <title>Detalles del Barrio</title>
 </head>
 <body>
+
+    [<a href="{% url 'listar_parroquias' %}">listar parroquias</a>]
+    [<a href="{% url 'listar_barrios' %}">listar barrios</a>]
+    [<a href="{% url 'crear_parroquia' %}">crear parroquia</a>]
+    [<a href="{% url 'crear_barrio' %}">crear barrio</a>]
+    <br><br>
+
     <h2>Detalles del Barrio: {{ barrio.nombre }}</h2>
     <ul>
         <li><strong>Nombre:</strong> {{ barrio.nombre }}</li>
@@ -25,7 +32,7 @@
     {% else %}
         <p>No tiene presidente asignado.</p>
     {% endif %}
-    
+
     <br>
     [<a href="{% url 'index' %}">inicio</a>]
 </body>

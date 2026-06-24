@@ -59,13 +59,20 @@ def obtener_barrio(request, id):
 
 
 def listar_parroquias(request):
-    """
-    """
-    parroquias = Parroquia.objects.all()
-    informacion_template = {
-        'parroquias': parroquias
-    }
-    return render(request, 'listar_parroquias.html', informacion_template)
+    parroquias_db = Parroquia.objects.all()
+    lista_parroquias = []
+    for p in parroquias_db:
+        total_parques = sum(b.numero_parques for b in p.barrios.all())
+        profesiones = list(set(
+            b.presidente.profesion for b in p.barrios.all() if hasattr(b, 'presidente')
+        ))
+        lista_parroquias.append({
+            'obj': p,
+            'barrios': p.barrios.all(),
+            'total_parques': total_parques,
+            'profesiones': profesiones,
+        })
+    return render(request, 'listar_parroquias.html', {'parroquias': lista_parroquias})
 
 
 def listar_barrios(request):
