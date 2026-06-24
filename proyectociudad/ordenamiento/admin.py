@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-# Importar las clases del modelo
 from ordenamiento.models import Parroquia, Barrio, Presidente
+
+admin.site.site_header = "Sistema de Ordenamiento Territorial"
+admin.site.site_title = "Sistema de Ordenamiento Territorial"
+admin.site.index_title = "Administración - Parroquias, Barrios y Presidentes"
 
 # Se crea una clase que hereda de ModelAdmin para el modelo Parroquia
 class ParroquiaAdmin(admin.ModelAdmin):
